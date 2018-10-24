@@ -8,12 +8,17 @@ namespace Receiver_NServiceBus
     {
         static async Task Main(string[] args)
         {
-            var endpointConfiguration = new EndpointConfiguration("hello");
+            string queueName = "wazzup";
+            string hostName = "localhost";
+            string user = "guest";
+            string pwd = "guest";
+
+            var endpointConfiguration = new EndpointConfiguration(queueName);
             endpointConfiguration.EnableInstallers();
             endpointConfiguration.UseSerialization<NewtonsoftSerializer>();
             var transport = endpointConfiguration.UseTransport<RabbitMQTransport>();
             transport.UseConventionalRoutingTopology();
-            transport.ConnectionString("host=localhost");
+            transport.ConnectionString($"host={hostName};username={user};password={pwd};");
             transport.UsePublisherConfirms(true);
 
             transport.UseDurableExchangesAndQueues(false);
