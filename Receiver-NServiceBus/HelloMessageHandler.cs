@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using NServiceBus;
 
 namespace Receiver_NServiceBus
@@ -8,6 +9,7 @@ namespace Receiver_NServiceBus
         public Task Handle(Incoming message, IMessageHandlerContext context)
         {
             var x = message.Message;
+            Console.WriteLine(x);
             return Task.CompletedTask;
         }
     }

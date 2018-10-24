@@ -1,6 +1,7 @@
 ﻿using NServiceBus;
 using System;
 using System.Threading.Tasks;
+using NServiceBus.Pipeline;
 
 namespace Receiver_NServiceBus
 {
@@ -21,7 +22,9 @@ namespace Receiver_NServiceBus
             transport.ConnectionString($"host={hostName};username={user};password={pwd};");
             transport.UsePublisherConfirms(true);
 
-            transport.UseDurableExchangesAndQueues(false);
+            //transport.UseDurableExchangesAndQueues(false);
+
+            endpointConfiguration.Pipeline.Register<AssumeMessageTypeBehavior>(new AssumeMessageTypeBehavior(), "Assume all messages are Receiver_NServiceBus.Incoming");
 
             var endpointInstance = await Endpoint.Start(endpointConfiguration)
                 .ConfigureAwait(false);
@@ -31,6 +34,15 @@ namespace Receiver_NServiceBus
 
             await endpointInstance.Stop()
                 .ConfigureAwait(false);
+        }
+    }
+
+    class AssumeMessageTypeBehavior : Behavior<IIncomingPhysicalMessageContext>
+    {
+        public override Task Invoke(IIncomingPhysicalMessageContext context, Func<Task> next)
+        {
+            context.Message.Headers[Headers.EnclosedMessageTypes] = "Receiver_NServiceBus.Incoming";
+            return next();
         }
     }
 }
