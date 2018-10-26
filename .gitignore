@@ -9,3 +9,5 @@
 /Receiver-NServiceBus/obj
 /Sender/bin/Debug/netcoreapp2.1
 /Sender/obj
+/BlueReceiver/bin/Debug/netcoreapp2.1
+/BlueReceiver/obj

@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueReceiver", "BlueReceiver\BlueReceiver.csproj", "{8E9307AA-3A1E-42CF-905D-E07204D68053}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{B692FFBF-9495-45D3-816C-5A4E77370902}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B692FFBF-9495-45D3-816C-5A4E77370902}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B692FFBF-9495-45D3-816C-5A4E77370902}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E9307AA-3A1E-42CF-905D-E07204D68053}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E9307AA-3A1E-42CF-905D-E07204D68053}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E9307AA-3A1E-42CF-905D-E07204D68053}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E9307AA-3A1E-42CF-905D-E07204D68053}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

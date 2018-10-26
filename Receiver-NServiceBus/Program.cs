@@ -20,11 +20,9 @@ namespace Receiver_NServiceBus
             var transport = endpointConfiguration.UseTransport<RabbitMQTransport>();
             transport.UseConventionalRoutingTopology();
             transport.ConnectionString($"host={hostName};username={user};password={pwd};");
-            transport.UsePublisherConfirms(true);
+            transport.UsePublisherConfirms(true);            
 
-            //transport.UseDurableExchangesAndQueues(false);
-
-            endpointConfiguration.Pipeline.Register<AssumeMessageTypeBehavior>(new AssumeMessageTypeBehavior(), "Assume all messages are Receiver_NServiceBus.Incoming");
+            endpointConfiguration.Pipeline.Register(new AssumeMessageTypeBehavior(typeof(Incoming)), "Assume all messages are provided type.");
 
             var endpointInstance = await Endpoint.Start(endpointConfiguration)
                 .ConfigureAwait(false);
@@ -39,9 +37,15 @@ namespace Receiver_NServiceBus
 
     class AssumeMessageTypeBehavior : Behavior<IIncomingPhysicalMessageContext>
     {
+        private Type _messageType;
+        public AssumeMessageTypeBehavior(Type type)
+        {
+            _messageType = type;
+        }
+
         public override Task Invoke(IIncomingPhysicalMessageContext context, Func<Task> next)
         {
-            context.Message.Headers[Headers.EnclosedMessageTypes] = "Receiver_NServiceBus.Incoming";
+            context.Message.Headers[Headers.EnclosedMessageTypes] = _messageType.FullName;
             return next();
         }
     }

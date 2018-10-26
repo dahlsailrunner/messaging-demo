@@ -1,21 +1,21 @@
-﻿using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using System;
+﻿using System;
 using System.Text;
 using Newtonsoft.Json;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 
-namespace Receiver
+namespace BlueReceiver
 {
     class Program
     {
         static void Main(string[] args)
         {
             string queueName = "wazzup";
-            string hostName = "localhost";
+            string hostName = "rcdrpfaprmq001.realpage.com";
             string user = "guest";
-            string pwd = "guest";
+            string pwd = "guest123";
 
-            var factory = new ConnectionFactory() {HostName = hostName, UserName = user, Password = pwd};           
+            var factory = new ConnectionFactory() { HostName = hostName, UserName = user, Password = pwd };
 
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
@@ -34,9 +34,9 @@ namespace Receiver
         }
 
         static void ProcessQueueItem(object model, BasicDeliverEventArgs ea)
-        {            
-            var message = JsonConvert.DeserializeObject<Incoming>(Encoding.UTF8.GetString(ea.Body));
-            Console.WriteLine(" [x] Received {0}", message.Message);
+        {
+            var message = JsonConvert.DeserializeObject<BlueMessage>(Encoding.UTF8.GetString(ea.Body));
+            Console.WriteLine(" [x] Received {0}", message.DisplayName);
 
             // acknowledging the event takes it off the queue
             var m = model as EventingBasicConsumer;
