@@ -10,12 +10,19 @@ namespace BlueReceiver
     {
         static void Main(string[] args)
         {
-            string queueName = "wazzup";
-            string hostName = "rcdrpfaprmq001.realpage.com";
-            string user = "guest";
-            string pwd = "guest123";
+            string queueName = "unified-green";
+            string hostName = "rcdrpfaprmq001.realpage.com";            
+            string user = "esuser";
+            string pwd = "esuser123";
+            string virtualHost = "/";
 
-            var factory = new ConnectionFactory() { HostName = hostName, UserName = user, Password = pwd };
+            var factory = new ConnectionFactory()
+            {
+                HostName = hostName,
+                UserName = user,
+                Password = pwd,
+                VirtualHost = virtualHost                
+            };
 
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
@@ -42,7 +49,8 @@ namespace BlueReceiver
             var m = model as EventingBasicConsumer;
             if (m != null)
             {
-                //m.Model.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+                // if you comment out this line the message will be re-queued when thread stops
+                m.Model.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
             }
         }
     }
